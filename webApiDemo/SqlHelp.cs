@@ -32,7 +32,7 @@ namespace webApiDemo
 
         }
 
-        public DataTable ExecuteTable(string cmdText, SqlParameter [] sqlParameters)
+        public DataTable ExecuteTable(string cmdText,params SqlParameter [] sqlParameters)
         {
             DataTable dt = new DataTable();
             using (SqlConnection conn = new SqlConnection(ConnectionString))
@@ -40,6 +40,7 @@ namespace webApiDemo
                 conn.Open();
                 DataSet ds = new DataSet();
                 SqlCommand cmd = new SqlCommand(cmdText, conn);
+                cmd.Parameters.AddRange(sqlParameters);
                 SqlDataAdapter sda = new SqlDataAdapter(cmd); 
                 sda.Fill(dt);   
                 cmd.CommandText = cmdText;
@@ -48,9 +49,17 @@ namespace webApiDemo
 
         }
 
-        public int ExecuteNonQuery(string cmdText, SqlParameter[] sqlParameters)
+        public int ExecuteNonQuery(string cmdText, params SqlParameter[] sqlParameters)
         {
-            return ExecuteNonQuery(cmdText, sqlParameters,);
+            using(SqlConnection conn = new SqlConnection(ConnectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(cmdText, conn);
+                cmd.Parameters.AddRange(sqlParameters);
+                cmd.ExecuteNonQuery();
+                return cmd.ExecuteNonQuery();
+            }
+            //return ExecuteNonQuery(cmdText, sqlParameters,);
         }
 
 
