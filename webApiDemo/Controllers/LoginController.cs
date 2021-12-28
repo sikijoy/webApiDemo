@@ -19,8 +19,7 @@ namespace webApiDemo.Controllers
             User user = new User();
             user.Id = dr["Id"]?.ToString().Trim();
             user.Name = dr["Name"]?.ToString().Trim();
-            user.PassWorld d = dr["Password"]?.ToString().Trim();
-
+            user.PassWorld = dr["Password"]?.ToString().Trim();
             return "get it select sql";
         }
         [HttpPost]
