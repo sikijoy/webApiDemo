@@ -4,12 +4,16 @@ namespace webApiDemoCommon
 {
     public static class Md5Helper
     {
-         public static string ToMd5(this string str){
+         public static string ToMd5(this string str)
         {
                 MD5 md5 = new MD5CryptoServiceProvider( );
                 byte[] output = md5.ComputeHash(Encoding.Default.GetBytes(str));
-                string md5Str = BitConverter.ToString(output);
+                string md5Str = BitConverter.ToString(output).Replace("_","");
                 return md5Str;
         }
+
+
+
+
     }
 }
